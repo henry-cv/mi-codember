@@ -69,4 +69,53 @@ VY5EHZHY,EfaHWA,efahwa@outlook.com,25,New York
 EkCCjg5e9,JvowjF,jvowjf@outlook.com,68,Paris
 KVJd37LC,IzgjKS,izgjks@gmail.com,31,Paris`;
 const rows = bdcuentas.split("\n");
-console.log(rows);
+//console.log(rows[rows.length - 1]);
+let invalidInitials = ""; //collect the first letter of all invalid usernames
+const alfa = /([a-zA-Z0-9])/g;
+const emailExp = /^(\w+|\d+)@(\w+)\.com$/g;
+const ageExp = /\d/g;
+
+const checkId = (id) => id.match(alfa);
+//const checkId = (id) => alfa.test(id);
+const checkUsername = (user) => user.match(alfa);
+const checkEmail = (email) => email.match(emailExp);
+const checkAge = (age) => age.match(ageExp);
+const checkLocation = (location) => location.match(/[a-zA-Z]/g);
+
+const validateData = (arr) => {
+  arr.forEach((cuenta) => {
+    let [id, username, email, age, location] = cuenta.split(",");
+    if (checkId(id)) {
+      console.log(`id válido: '${id}'`);
+    } else {
+      console.log(`id no válido: '${id}'`);
+    }
+    if (checkUsername(username)) {
+      //console.log("username válido", username);
+    } else {
+      //console.log("username no válido", username);
+    }
+    if (checkEmail(email)) {
+      //console.log("email válido: ", email);
+    } else {
+      //console.log("email no válido: ", email);
+    }
+    if (checkAge(age)) {
+      //console.log("age válido", age);
+    } else {
+      //console.log("age no válido", age);
+    }
+    if (checkLocation(location)) {
+      //console.log("location válido", location);
+    } else {
+      //console.log(`location no válido: '${location}'`);
+    }
+    //Comprobación de cuenta
+    if (!checkId(id) || !checkUsername(username) || !checkEmail(email)) {
+      invalidInitials += username[0];
+    }
+  });
+
+  return invalidInitials;
+};
+console.log(validateData(rows));
