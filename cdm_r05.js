@@ -71,47 +71,41 @@ KVJd37LC,IzgjKS,izgjks@gmail.com,31,Paris`;
 const rows = bdcuentas.split("\n");
 //console.log(rows[rows.length - 1]);
 let invalidInitials = ""; //collect the first letter of all invalid usernames
-const alfa = /([a-zA-Z0-9])/g;
-const emailExp = /^(\w+|\d+)@(\w+)\.com$/g;
-const ageExp = /\d/g;
+const alfa = /([^a-zA-Z0-9 ])/g;
+const emailExp = /^(\w+|\d+)@(\w+)\.com$/gi;
+const ageExp = /\D/g;
 
-const checkId = (id) => id.match(alfa);
-//const checkId = (id) => alfa.test(id);
-const checkUsername = (user) => user.match(alfa);
-const checkEmail = (email) => email.match(emailExp);
-const checkAge = (age) => age.match(ageExp);
-const checkLocation = (location) => location.match(/[a-zA-Z]/g);
+const checkBadId = (id) => id.match(alfa);
+const checkBadUsername = (user) => user.match(alfa);
+const checkBadEmail = (email) => !email.match(emailExp);
+const checkBadAge = (age) => age.match(ageExp);
+const checkBadLocation = (location) => location.match(/[^a-zA-Z ]/gi);
 
 const validateData = (arr) => {
   arr.forEach((cuenta) => {
     let [id, username, email, age, location] = cuenta.split(",");
-    if (checkId(id)) {
-      console.log(`id válido: '${id}'`);
-    } else {
-      console.log(`id no válido: '${id}'`);
+    //console.log(`Letra: '${username[0]}`);
+    //console.table(cuenta);
+    //console.log(`id no válido: '${id}'`);
+    if (checkBadId(id)) {
+      //console.log(`id no válido: '${id}'`);
     }
-    if (checkUsername(username)) {
-      //console.log("username válido", username);
-    } else {
-      //console.log("username no válido", username);
+    if (checkBadUsername(username)) {
+      //console.log("username incorrecto: ", username);
     }
-    if (checkEmail(email)) {
-      //console.log("email válido: ", email);
-    } else {
-      //console.log("email no válido: ", email);
+    if (checkBadEmail(email)) {
+      console.log("email no válido: ", email);
     }
-    if (checkAge(age)) {
-      //console.log("age válido", age);
-    } else {
-      //console.log("age no válido", age);
+    if (checkBadAge(age)) {
+      //console.log("wrong age: ", age);
     }
-    if (checkLocation(location)) {
-      //console.log("location válido", location);
-    } else {
-      //console.log(`location no válido: '${location}'`);
+    if (checkBadLocation(location)) {
+      //console.log(`Wrong Location: '${location}'`);
     }
     //Comprobación de cuenta
-    if (!checkId(id) || !checkUsername(username) || !checkEmail(email)) {
+    if (checkBadId(id) || checkBadUsername(username) || checkBadEmail(email)) {
+      //console.table(cuenta);
+      console.log(`Letra: '${username[0]}`);
       invalidInitials += username[0];
     }
   });
