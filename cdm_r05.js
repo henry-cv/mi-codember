@@ -75,9 +75,10 @@ const alfa = /([^a-zA-Z0-9 ])/g;
 const emailExp = /^(\w+|\d+)@(\w+)\.com$/gi;
 const ageExp = /\D/g;
 
-const checkBadId = (id) => id.match(alfa);
+const checkBadId = (id) => !id ? true : id.match(alfa);
+
 const checkBadUsername = (user) => user.match(alfa);
-const checkBadEmail = (email) => !email.match(emailExp);
+const checkBadEmail = (email) => !email ? true : !email.match(emailExp);
 const checkBadAge = (age) => age.match(ageExp);
 const checkBadLocation = (location) => location.match(/[^a-zA-Z ]/gi);
 
@@ -88,13 +89,13 @@ const validateData = (arr) => {
     //console.table(cuenta);
     //console.log(`id no válido: '${id}'`);
     if (checkBadId(id)) {
-      //console.log(`id no válido: '${id}'`);
+      console.log(`id no válido: '${id}'`);
     }
     if (checkBadUsername(username)) {
       //console.log("username incorrecto: ", username);
     }
     if (checkBadEmail(email)) {
-      console.log("email no válido: ", email);
+      //console.log("email no válido: ", email);
     }
     if (checkBadAge(age)) {
       //console.log("wrong age: ", age);
